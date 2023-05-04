@@ -1,5 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import {
+  createRegistro,
+  formatRegistro,
   getListRequest,
   deleteCobsenRequest,
   createCobsenRequest,
@@ -7,6 +9,7 @@ import {
  updateCobsenRequest,
  getListSector,
  getListSector1,
+ getRegistros,
   // toggleCobsenDoneRequest,
 } from "../api/cobsen.api.js";
 import { CobsenContext } from "./CobsenContext";
@@ -72,6 +75,30 @@ export const CobsenContextProvider = ({ children }) => {
       console.error(error);
     }
   };
+
+  const updateRegistro = async (newFields) => {
+    try {
+      const response = await createRegistro(newFields);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const deleteRegistro = async (RPU, newFields) => {
+    try {
+      const response = await formatRegistro(RPU, newFields);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+
+  async function loadRegistros() {
+    const response = await getRegistros();
+    setCobsens(response.data);
+  }
 /*
   const toggleCobsenDone = async (RPU) => {
     try {
@@ -91,6 +118,7 @@ export const CobsenContextProvider = ({ children }) => {
     <CobsenContext.Provider
       value={{
         cobsens,
+          loadRegistros,
           loadCobsens,
           loadSector,
           loadSector1,
@@ -98,6 +126,8 @@ export const CobsenContextProvider = ({ children }) => {
         createCobsen,
         getCobsen,
         updateCobsen,
+        deleteRegistro,
+        updateRegistro,
         //toggleCobsenDone,
       }}
     >

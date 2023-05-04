@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import NavScroll from "../components/Navbar";
+import CobsenPage from "./CobsenPage";
 
  function Login() {
 
@@ -48,6 +49,7 @@ import NavScroll from "../components/Navbar";
 
 
 { miLogin === "true" && <NavScroll /> }
+{ miLogin === "true" && <CobsenPage /> }
 
 
 </div>

@@ -1,6 +1,6 @@
 import {BrowserRouter as Router, Switch, Routes, Route } from "react-router-dom";
 import CobsenPage from "./pages/CobsenPage.js";
-import NotFound from "./pages/NotFound.js";
+import NotFound from "./pages/Registros.js";
 import NavScroll from "./components/Navbar";
 import CobsenForm from "./pages/CobsenForm.js";
 import { CobsenContextProvider } from "./context/CobsenProvider.js";
@@ -10,8 +10,34 @@ import Categorias from "./pages/TablaSector.js";
 import Sector1 from "./pages/Sector1.js";
 import SectorPE from "./pages/Sector1.js";
 import Login from "./pages/Login.js";
+import { useState, useEffect } from "react";
 
 function App() {
+/*
+  const [registroItems, setRegistroItems] = useState ([
+    { name: 'reporte'}
+  ])
+
+
+  useEffect(() => {
+    let data = localStorage.getItem("reporte");
+    if (data) {
+      setRegistroItems(JSON.parse(data));
+    }
+    //setUserName("fazt");
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("reporte", JSON.stringify(registroItems));
+  }, [registroItems]);
+ 
+  const createReport = (registroName) => {
+  console.log(registroName)
+    //if (!registroItems.find((registro) => registro.name === registroName)) {
+      setRegistroItems([...registroItems, { name : registroName }])
+    //}
+  }*/
+
   return (
 
     <div>

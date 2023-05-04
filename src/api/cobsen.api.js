@@ -22,5 +22,11 @@ await axios.get(`http://localhost:3030/api/languages/${RPU}`);
 export const updateCobsenRequest = async (RPU, newFields) =>
 await axios.put(`http://localhost:3030/api/languages/${RPU}`, newFields);
 
-export const FilesUploadComponent = async (file) =>
-await axios.post("http://localhost:3030/api/languages/files",  file);
+export const createRegistro = async () =>
+await axios.post("http://localhost:3030/api/languages/files");
+
+export const formatRegistro = async () =>
+await axios.put(`http://localhost:3030/api/languages/formatear`);
+
+export const getRegistros = async () =>
+  await axios.get("http://localhost:3030/api/languages/registros");

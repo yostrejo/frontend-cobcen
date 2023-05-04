@@ -5,6 +5,7 @@
   import CobsenForm from "../pages/CobsenForm";
   import Categoria from "../pages/TablaSector";
   import FilesUploadComponent from "./files-upload-component";
+  import Registros from "../pages/Registros";
 
 
 
@@ -31,14 +32,18 @@ const [archivo, setArchivo] = useState("");
    setForm("0");
    setSectores("0");
    setArchivo("0");
+   
+
 
   }
 
+ 
   function op_form(){
     setPage("0");
     setForm("1");
     setSectores("0");
     setArchivo("0");
+
     
    }
 
@@ -47,6 +52,7 @@ const [archivo, setArchivo] = useState("");
     setForm("0");
     setSectores("1");
     setArchivo("0");
+
     
    }
 
@@ -55,7 +61,7 @@ const [archivo, setArchivo] = useState("");
     setForm("0");
     setSectores("0");
     setArchivo("1");
-    
+
    }
 
   return(
@@ -74,6 +80,7 @@ const [archivo, setArchivo] = useState("");
       <Nav.Link as={Link} onClick={ op_sectores }  >Sectores</Nav.Link>
       <Nav.Link as={Link} onClick={ op_form } t>Nuevo Registro</Nav.Link>
       <Nav.Link as={Link} onClick={ op_archivo } >Archivo</Nav.Link>
+      
        
     </Nav>
     <Form className="d-flex px-10">
@@ -99,6 +106,7 @@ const [archivo, setArchivo] = useState("");
      { form === "1" && <CobsenForm />}
      { sectores === "1" && <Categoria />}
      { archivo === "1" && <FilesUploadComponent />}
+    
 
  </>
 

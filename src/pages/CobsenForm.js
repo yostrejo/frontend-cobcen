@@ -28,7 +28,7 @@ function CobsenForm() {
                 const cobsen = await getCobsen(params.RPU)
                 setCobsen({
 
-                    Id_Categoria: cobsen.Id_Categoria,
+                    Id_Categoria: cobsen.Id_categoria,
                     RPU: cobsen.RPU,
                     DEPENDENCIA: cobsen.Dependencia,
                     MEN_BIM: cobsen.Men_Bim,
@@ -73,7 +73,7 @@ function CobsenForm() {
                             name='Id_Categoria'
                             placeholder="Escriba el ID del sector"
                             onChange={handleChange}
-                            value={values.Id}
+                            value={values.Id_Categoria}
                         />
 
                        <div className="py-4 row-4">
