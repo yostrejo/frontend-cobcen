@@ -49,10 +49,11 @@ import CobsenPage from "./CobsenPage";
 
 
 { miLogin === "true" && <NavScroll /> }
-{ miLogin === "true" && <CobsenPage /> }
 
 
 </div>
+
+//{ miLogin === "true" && <CobsenPage /> }
 
       
     )

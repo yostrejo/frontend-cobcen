@@ -304,17 +304,41 @@ import { Formik, Form } from 'formik';
 import { useCobsens } from "../context/CobsenProvider";
 import * as xlsx from 'xlsx';
 import axios from 'axios';
+import { CSVLink } from "react-csv";
 
 export function FilesUploadComponent() {
 
-    const { cobsens, loadRegistros } = useCobsens()
-    const params = useParams();
+       const borrarContenidoColumna = () => {
+        axios.post(`http://localhost:3030/api/languages/formatear`)
+          .then(response => {
+            console.log(response.data);
+            this.forceUpdate();
+            // Realiza alguna acción después de borrar el contenido de la columna
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      };
+    
+    const { cobsens, loadRegistros, deleteRegistros } = useCobsens();
     useEffect(() => {
         loadRegistros()
     }, []);
 
+    const {loadData, setLoadData} = useState([]);
+    const navigate = useNavigate()
+      useEffect(() => {
+        loadRegistros()
+        const intervalo = setInterval(loadRegistros, 10000);
+    }, []);
+
+   const loadReg =  async () => {
+    const result = await axios.get("http://localhost:3030/api/languages");
+    setLoadData(result.data.reverse());
+   };
+
     const [excelData, setExcelData] = useState([]);
-    const [cobsen, setCobsen] = useState()
+    const [cobsen, setCobsen] = useState(true)
 
 
     const readExcel = async (e) => {
@@ -347,10 +371,24 @@ export function FilesUploadComponent() {
 
     const handleFileChange = (event) => {
         setFile(event.target.files[0]);
-    };
+
+            };
 
     function handleSubmit (event) {
         event.preventDefault();
+        const myButton = document.getElementById('cargar');
+    myButton.disabled = true;
+    myButton.style.opacity = 0.7;
+    myButton.textContent = 'Ejecutando proceso...';
+ 
+    //simulación de espera para ejecución de un proceso
+    setTimeout(function() {
+        //console.log('Espera por favor...');
+        myButton.textContent = 'Pulsar';
+        myButton.style.opacity = 1;
+        myButton.disabled = false;
+    }, 30000);
+ //location.reload();
  
            const formdata = new FormData()
     formdata.append('file', file)
@@ -359,28 +397,35 @@ export function FilesUploadComponent() {
       method: 'POST',
       body: formdata
     })
+
     .then(res => res.text())
     .then(res => console.log(res))
     .catch(err => {
       console.error(err)
     })
-
+   
     document.getElementById('fileinput').value = null
 
     setFile(null)
-    }
+
+    
+    } 
 
     return (
-        <Formik>
-
+        <Formik
+        initialValues={cobsen}
+        enableReinitialize={true}
+        >
+            
             <Form>
                 <div>
                     <h3>React File Upload</h3>
                     <div className="container">
+                        <CSVLink className="px-4" data={cobsens} onClick={() => {}}>Exportar</CSVLink>
+                        <button onClick={()=> borrarContenidoColumna()} >Reset</button>
                         <div className='card'>
                             <div className="row">
                                 <div className="col-10">
-
                                     <input className="form-control" //className='form-control'
                                         id="fileinput"
                                         name="file"
@@ -390,7 +435,7 @@ export function FilesUploadComponent() {
                                 </div>
 
                                 <div className="col-2">
-                                    <button className="btn btn-primary col-12" type="submit" onClick={handleSubmit}>Upload</button>
+                                    <button className="btn btn-primary col-12" type="submit" id="cargar" onClick={handleSubmit}>Upload</button>
                                 </div>
                             </div>
 

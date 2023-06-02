@@ -25,10 +25,10 @@ function CobsenPage() {
              
              <thead >
                  <tr className="table-success" >
-                <th>Id_categoria</th>
+                <th>Id Sector</th>
                  <th>RPU</th>
                  <th>Dependencia</th>
-                 <th>Men_Bim</th>
+                 <th>Mensual o Bimestral</th>
                  <th>TFA</th>
                  <th>Acciones</th>
                  </tr>
@@ -43,10 +43,9 @@ function CobsenPage() {
                        <td>{cobsen.Dependencia}</td>
                        <td>{cobsen.Men_Bim}</td>
                        <td>{cobsen.TFA}</td>
-                       <button onClick={() => deleteCobsen(cobsen.RPU)}>Delete</button>
-                   <button onClick={() => navigate(`/editar/${cobsen.RPU}`)}> Editar </button>
+                       <button onClick={() => deleteCobsen(cobsen.RPU)}>Borrar</button>
            </tr>   
-                         ))}
+                         ))} 
                          </tbody>
                          </table>
             </div>
@@ -58,3 +57,4 @@ function CobsenPage() {
 export default CobsenPage;
 
 //   <CobsenList cobsens={cobsen} key={cobsen.RPU} />
+//<button onClick={() => navigate(`/editar/${cobsen.RPU}`)}>Editar</button>

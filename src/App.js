@@ -40,22 +40,13 @@ function App() {
 
   return (
 
-    <div>
-      
-    <div>
-      
-     
     
-      <div>
         <CobsenContextProvider>
           <Routes>
           <Route path="/" element={<Login/>} />
           </Routes>
         </CobsenContextProvider>
-      </div>
-
-    </div>
-    </div>
+     
 
   )
 }

@@ -6,6 +6,9 @@
   import Categoria from "../pages/TablaSector";
   import FilesUploadComponent from "./files-upload-component";
   import Registros from "../pages/Registros";
+  import axios from "axios";
+  import Search from "../pages/Search";
+  
 
 
 
@@ -15,6 +18,7 @@ const [page, setPage] = useState("");
 const [form, setForm] = useState("");
 const [sectores, setSectores] = useState("");
 const [archivo, setArchivo] = useState("");
+const [search, setSearch] = useState("");
 
 
   function cerrarSesion(){
@@ -32,6 +36,7 @@ const [archivo, setArchivo] = useState("");
    setForm("0");
    setSectores("0");
    setArchivo("0");
+   setSearch("0");
    
 
 
@@ -43,7 +48,7 @@ const [archivo, setArchivo] = useState("");
     setForm("1");
     setSectores("0");
     setArchivo("0");
-
+    setSearch("0");
     
    }
 
@@ -52,7 +57,7 @@ const [archivo, setArchivo] = useState("");
     setForm("0");
     setSectores("1");
     setArchivo("0");
-
+    setSearch("0");
     
    }
 
@@ -61,13 +66,21 @@ const [archivo, setArchivo] = useState("");
     setForm("0");
     setSectores("0");
     setArchivo("1");
+    setSearch("0");
+   }
 
+   function op_search(){
+    setPage("0");
+    setForm("0");
+    setSectores("0");
+    setArchivo("0");
+    setSearch("1");
    }
 
   return(
     <>
 <Navbar className="navBg" bg="light" expand="lg">
-  <NavbarBrand ><img src='./logoof.png' width='70'></img> Complejo Administrativo Colima</NavbarBrand>
+  <NavbarBrand ><img src='./logoof.png' width='70'></img> Complejo Administrativo del Estado de Colima</NavbarBrand>
   <Navbar.Toggle aria-controls="navbarScroll" />
   <Navbar.Collapse id="navbarScroll">
     <Nav
@@ -76,11 +89,11 @@ const [archivo, setArchivo] = useState("");
     }}
       navbarScroll
     >
-      <Nav.Link as={Link} onClick={ op_page } >Home</Nav.Link>
+      <Nav.Link as={Link} onClick={ op_page } >Inicio</Nav.Link>
       <Nav.Link as={Link} onClick={ op_sectores }  >Sectores</Nav.Link>
-      <Nav.Link as={Link} onClick={ op_form } t>Nuevo Registro</Nav.Link>
+      <Nav.Link as={Link} onClick={ op_form } >Nuevo Registro</Nav.Link>
       <Nav.Link as={Link} onClick={ op_archivo } >Archivo</Nav.Link>
-      
+            
        
     </Nav>
     <Form className="d-flex px-10">
@@ -89,8 +102,9 @@ const [archivo, setArchivo] = useState("");
         placeholder="Search"
         className="mr-2"
         aria-label="Search"
+                
       />
-      <Button variant="outline-success">Search</Button>
+      <Button variant="outline-success" onClick={ op_search }>Search</Button>
     </Form>
     <div className="d-flex justify-content-end">
     <Button variant="danger" as={Link} href=" " onClick={ cerrarSesion }>Cerrar Sesion</Button>
@@ -106,6 +120,7 @@ const [archivo, setArchivo] = useState("");
      { form === "1" && <CobsenForm />}
      { sectores === "1" && <Categoria />}
      { archivo === "1" && <FilesUploadComponent />}
+     { search === "1" && <Search/>}
     
 
  </>
@@ -113,6 +128,7 @@ const [archivo, setArchivo] = useState("");
   
 
   )
+  
 }
 
 export default NavScroll;

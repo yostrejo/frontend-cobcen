@@ -19,6 +19,7 @@ function CobsenForm() {
         MEN_BIM: "",
         TFA: "",
     })
+    
     const params = useParams();
     const navigate = useNavigate();
 
@@ -48,6 +49,7 @@ function CobsenForm() {
                 enableReinitialize={true}
                 onSubmit={async (values, actions) => {
                     console.log(values);
+                    actions.resetForm();
 
                     if (params.RPU) {
                         await updateCobsen(params.RPU, values);
@@ -112,8 +114,8 @@ function CobsenForm() {
                             value={values.TFA}
                         /> </div>
                         <label></label>
-                        <button className=" px-4 bg-green-300">Save</button>
-                        {isSubmitting ? "Saving..." : "Save"}
+                        <button className=" px-4 bg-green-300">Guardar</button>
+                        {isSubmitting ? "Guardando..." : "Guardar"}
                     </Form>
                 )}
             </Formik>

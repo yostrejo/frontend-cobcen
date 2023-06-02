@@ -29,7 +29,7 @@ function Categoria() {
                 Sectores
             </h1>
 
-            <div><table class="table table-striped table-bordered">
+            <div><table className="table table-striped table-bordered">
              
              <thead >
                  <tr className="table-success" >

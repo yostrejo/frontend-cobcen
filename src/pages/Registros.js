@@ -1,14 +1,14 @@
 import React from "react";
 import { useAppContext } from "./Reportes";
 
- export default function Registros() {
+ export default function Bienvenida() {
 
-    const store = useAppContext();
-
+    
     return (
-        <div>
-            {store.items.map(item => <div>{item.title}</div> )} 
-            </div>
+        <h1 className="text-center bg-gray-300">
+        ¡Sistema de Cobcen del Complejo Administrativo del Estado de Colima!
+    </h1>
+
            )
         };
                

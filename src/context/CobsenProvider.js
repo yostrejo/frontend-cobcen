@@ -10,6 +10,7 @@ import {
  getListSector,
  getListSector1,
  getRegistros,
+ searchRegistros
   // toggleCobsenDoneRequest,
 } from "../api/cobsen.api.js";
 import { CobsenContext } from "./CobsenContext";
@@ -76,19 +77,20 @@ export const CobsenContextProvider = ({ children }) => {
     }
   };
 
-  const updateRegistro = async (newFields) => {
+  const updateRegistro = async (cobsen) => {
     try {
-      const response = await createRegistro(newFields);
-      console.log(response);
+      const response = await createRegistro(cobsen);
+      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const deleteRegistro = async (RPU, newFields) => {
+  const deleteRegistro = async ( RPU, newFields) => {
     try {
       const response = await formatRegistro(RPU, newFields);
-      console.log(response);
+//      setCobsens([... cobsens, response.data]);
+       console.log(response);
     } catch (error) {
       console.error(error);
     }
@@ -99,6 +101,16 @@ export const CobsenContextProvider = ({ children }) => {
     const response = await getRegistros();
     setCobsens(response.data);
   }
+
+  const searchRegistro = async ( search) => {
+    try {
+      const response = await searchRegistros(search);
+      setCobsens(response.data);
+       console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 /*
   const toggleCobsenDone = async (RPU) => {
     try {
@@ -128,7 +140,7 @@ export const CobsenContextProvider = ({ children }) => {
         updateCobsen,
         deleteRegistro,
         updateRegistro,
-        //toggleCobsenDone,
+        searchRegistro
       }}
     >
       {children}
