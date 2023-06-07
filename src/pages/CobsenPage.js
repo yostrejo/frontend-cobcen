@@ -4,24 +4,62 @@ import CobsenList from "../components/CobsenList.js";
 import { useCobsens } from "../context/CobsenProvider"
 import { deleteCobsenRequest } from "../api/cobsen.api.js";
 import { useNavigate } from 'react-router-dom';
+import { FormControl, Button} from "react-bootstrap";
+
 
 
 
 function CobsenPage() {
-    const { cobsens, loadCobsens } = useCobsens()
+    const { cobsens, loadCobsens, loadRegistros } = useCobsens()
     const { deleteCobsen } = useCobsens()
     const navigate = useNavigate()
     useEffect(() => {
         loadCobsens()
     }, []);
+    const [cobsen, setCobsen] = useState("");
+    
 
+    //const search = useParams("");
+    //console.log(search);
+
+    const setdata = (e) => {
+        console.log(e.target.value);
+        setCobsen(e.target.value)
+    }
+
+   //metodo de filtrado
+   let results = []
+   if(!cobsen)
+   {
+    results = cobsens
+   }else {
+    results = cobsens.filter( (dato) => 
+    dato.RPU.toLowerCase().includes(cobsen.toLocaleLowerCase())
+    
+
+    )
+   }
+
+  
+    
+    useEffect(() => {
+        loadRegistros()
+    }, [])
     return (
         <div>
             <h1 className="text-center bg-gray-300">
                 Registros
             </h1>
-
-            <div><table className="table table-striped table-bordered">
+            <FormControl
+            
+         type="search"
+         value={cobsen}
+         placeholder="Buscar Registro"
+        onChange={setdata}  
+      />
+            <br></br>
+                     
+            <div><table className="table table-striped table-bordered ">
              
              <thead >
                  <tr className="table-success" >
@@ -36,7 +74,7 @@ function CobsenPage() {
              
                 <tbody>
 
-                {cobsens.map (cobsen => (
+                {results.map (cobsen => (
                        <tr>
                        <td >{cobsen.Id_categoria}</td>
                        <td >{cobsen.RPU}</td>

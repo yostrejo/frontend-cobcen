@@ -1,88 +1,80 @@
 import React from "react";
 import { useAppContext } from "./Reportes";
+import { FormControl, Button} from "react-bootstrap";
 import { useCobsens } from "../context/CobsenProvider"
 import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
 import { Form, Formik } from "formik";
-import { searchRegistros } from "../api/cobsen.api";
+import { loadRegistros } from "../api/cobsen.api";
 import { useParams } from "react-router-dom";
 
 
 export default function Search() {
-    const { cobsens, searchRegistros } = useCobsens();
-    const [cobsen, setCobsen] = useState();
-    console.log(cobsen);
+    const { cobsens, loadRegistros } = useCobsens();
+    const [cobsen, setCobsen] = useState("");
+    
 
-    const search = useParams("");
+    //const search = useParams("");
     //console.log(search);
 
     const setdata = (e) => {
         console.log(e.target.value);
-        const search = e.target;
-        setCobsen()
+        setCobsen(e.target.value)
     }
 
-    const getdata =async (e) => {
-        e.preventDefault();
+   //metodo de filtrado
+   let results = []
+   if(!cobsen)
+   {
+    results = cobsens
+   }else {
+    results = cobsens.filter( (dato) => 
+    dato.RPU.toLowerCase().includes(cobsen.toLocaleLowerCase())
+    
 
-       const res = await fetch(`http://localhost:3030/api/languages/search/${search}`, {
-      method: 'GET',
-      headers: { 
-        "content-type": "application/json"
-    },
-    body: search
-    });
+    )
+   }
 
-    const data = await res.json();
-    console.log(data);
-
-    if (res.status === 422 || !data) {
-        console.log(data);
-    } else {
-        setCobsen(data)
-        console.log("get data")
-    }
-    }
+  
+    
     useEffect(() => {
-        getdata();
+        loadRegistros()
     }, [])
 
     return (
 
         <div>
+             <h1 className="text-center bg-gray-300">
+                Buscar Registros
+            </h1>
+
+            <FormControl
+         type="search"
+         value={cobsen}
+         placeholder="Search"
+        onChange={setdata}  
+      />
             
-                        <input
-                            type="search"
-                            name="search"
-                            placeholder="Search"
-                           onChange={setdata}
-                        />
-                        <button
-                            type="submit"
-                            onClick={(e) => getdata(cobsen.search)}
-                        > Search</button>
-               
+                     
+                       
 
-            <div><table className="table table-striped table-bordered">
+            <div>   <table className="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Id Sector</th>
+                                            <th>RPU</th>
+                                            <th>Dependencia</th>
+                                            <th>Men_Bim</th>
+                                            <th>TFA</th>
+                                            <th>CONSUMO KWh</th>
+                                            <th>IMPORTE TOTAL $</th>
 
-                <thead >
-                    <tr className="table-success" >
-                        <th>Id Sector</th>
-                        <th>RPU</th>
-                        <th>Dependencia</th>
-                        <th>Mensual o Bimestral</th>
-                        <th>TFA</th>
-                        <th>CONSUMO KWh</th>
-                        <th>IMPORTE $</th>
-                    </tr>
-                </thead>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-                <tbody>
-
-                
-                            <tr>
-                            {getdata.map(cobsen => (
+                                        {results.map(cobsen => (
                                             <tr key={cobsen.RPU}>
                                                 <td>{cobsen.Id_categoria}</td>
                                                 <td>{cobsen.RPU}</td>
@@ -93,12 +85,13 @@ export default function Search() {
                                                 <td>{cobsen.Importe} </td>
                                             </tr>
                                         ))}
-                            </tr>
-             
-                </tbody>
-            </table>
+                                    </tbody>
+                                </table>
             </div>
         </div>
 
     )
+
 };
+
+

@@ -104,7 +104,7 @@ const [search, setSearch] = useState("");
         aria-label="Search"
                 
       />
-      <Button variant="outline-success" onClick={ op_search }>Search</Button>
+      <Button variant="outline-success" onClick={ op_search }>Buscar</Button>
     </Form>
     <div className="d-flex justify-content-end">
     <Button variant="danger" as={Link} href=" " onClick={ cerrarSesion }>Cerrar Sesion</Button>

@@ -308,34 +308,30 @@ import { CSVLink } from "react-csv";
 
 export function FilesUploadComponent() {
 
-       const borrarContenidoColumna = () => {
+    const borrarContenidoColumna = () => {
         axios.post(`http://localhost:3030/api/languages/formatear`)
-          .then(response => {
-            console.log(response.data);
-            this.forceUpdate();
-            // Realiza alguna acción después de borrar el contenido de la columna
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      };
-    
+            .then(response => {
+                console.log(response.data);
+                //this.forceUpdate();
+                // Realiza alguna acción después de borrar el contenido de la columna
+            })
+            .catch(error => {
+                console.error(error);
+            });
+};
+
     const { cobsens, loadRegistros, deleteRegistros } = useCobsens();
+    const { loadData, setLoadData } = useState([]);
+    const navigate = useNavigate()
     useEffect(() => {
         loadRegistros()
+        // const intervalo = setInterval(loadRegistros, 10000);
     }, []);
 
-    const {loadData, setLoadData} = useState([]);
-    const navigate = useNavigate()
-      useEffect(() => {
-        loadRegistros()
-        const intervalo = setInterval(loadRegistros, 10000);
-    }, []);
-
-   const loadReg =  async () => {
-    const result = await axios.get("http://localhost:3030/api/languages");
-    setLoadData(result.data.reverse());
-   };
+    const loadReg = async () => {
+        const result = await axios.get("http://localhost:3030/api/languages");
+        setLoadData(result.data.reverse());
+    };
 
     const [excelData, setExcelData] = useState([]);
     const [cobsen, setCobsen] = useState(true)
@@ -347,24 +343,24 @@ export function FilesUploadComponent() {
         const excelfile = xlsx.read(data);
         const excelSheet = excelfile.Sheets[excelfile.SheetNames[0]];
         const datos = xlsx.utils.sheet_to_json(excelSheet);
-            
+
         const RPU = datos.map(row => row.RPU);
         const CONSUMO = datos.map(row => row.CONSUMO);
         const IMPORTE = datos.map(row => row.IMPORTETOTAL);
 
         axios.post('http://localhost:3030/api/languages/files', RPU, CONSUMO, IMPORTE, readExcel)
-        .then((response) => { 
-            setMessage(response.data);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+            .then((response) => {
+                setMessage(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
 
-     console.log(CONSUMO, IMPORTE, RPU);
+        console.log(CONSUMO, IMPORTE, RPU);
         // setExcelData(exceljson);
 
 
-    }   
+    }
 
     const [file, setFile] = useState(null);
     const [message, setMessage] = useState('');
@@ -372,58 +368,61 @@ export function FilesUploadComponent() {
     const handleFileChange = (event) => {
         setFile(event.target.files[0]);
 
-            };
+    };
 
-    function handleSubmit (event) {
+    function handleSubmit(event) {
         event.preventDefault();
         const myButton = document.getElementById('cargar');
-    myButton.disabled = true;
-    myButton.style.opacity = 0.7;
-    myButton.textContent = 'Ejecutando proceso...';
- 
-    //simulación de espera para ejecución de un proceso
-    setTimeout(function() {
-        //console.log('Espera por favor...');
-        myButton.textContent = 'Pulsar';
-        myButton.style.opacity = 1;
-        myButton.disabled = false;
-    }, 30000);
- //location.reload();
- 
-           const formdata = new FormData()
-    formdata.append('file', file)
+        myButton.disabled = true;
+        myButton.style.opacity = 0.7;
+        myButton.textContent = 'Ejecutando proceso...';
 
-    fetch('http://localhost:3030/api/languages/files', {
-      method: 'POST',
-      body: formdata
-    })
+        //simulación de espera para ejecución de un proceso
+        setTimeout(function () {
+            //console.log('Espera por favor...');
+            myButton.textContent = 'Pulsar';
+            myButton.style.opacity = 1;
+            myButton.disabled = false;
+        }, 30000);
+        //location.reload();
 
-    .then(res => res.text())
-    .then(res => console.log(res))
-    .catch(err => {
-      console.error(err)
-    })
-   
-    document.getElementById('fileinput').value = null
+        const formdata = new FormData()
+        formdata.append('file', file)
 
-    setFile(null)
+        fetch('http://localhost:3030/api/languages/files', {
+            method: 'POST',
+            body: formdata
+        })
 
-    
-    } 
+            .then(res => res.text())
+            .then(res => console.log(res))
+            .catch(err => {
+                console.error(err)
+            })
+
+        document.getElementById('fileinput').value = null
+
+        setFile(null)
+
+
+    }
+
 
     return (
         <Formik
-        initialValues={cobsen}
-        enableReinitialize={true}
+            initialValues={cobsen}
+            enableReinitialize={true}
         >
-            
+
             <Form>
                 <div>
                     <h3>React File Upload</h3>
                     <div className="container">
-                        <CSVLink className="px-4" data={cobsens} onClick={() => {}}>Exportar</CSVLink>
-                        <button onClick={()=> borrarContenidoColumna()} >Reset</button>
-                        <div className='card'>
+                        <CSVLink className="btn btn-success" data={cobsens} onClick={() => { }}>Exportar</CSVLink>
+
+                        <button className=" btn btn-secondary" onClick={() => borrarContenidoColumna()} >Reset</button>
+                        <br></br>
+                        <div className='card py-4'>
                             <div className="row">
                                 <div className="col-10">
                                     <input className="form-control" //className='form-control'
@@ -435,12 +434,15 @@ export function FilesUploadComponent() {
                                 </div>
 
                                 <div className="col-2">
-                                    <button className="btn btn-primary col-12" type="submit" id="cargar" onClick={handleSubmit}>Upload</button>
+                                    <button className="btn btn-primary col-12"
+                                        type="submit"
+                                        id="cargar"
+                                        onClick={handleSubmit}>Upload</button>
                                 </div>
                             </div>
 
                             <div className="col-md-12 mt-3">
-                                <table className="table">
+                                <table className="table ">
                                     <thead>
                                         <tr>
                                             <th>Id Sector</th>

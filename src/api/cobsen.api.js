@@ -34,3 +34,4 @@ export const getRegistros = async () =>
 export const searchRegistros = async (search) =>
   await axios.get(`http://localhost:3030/api/search/${search}`);
 
+
