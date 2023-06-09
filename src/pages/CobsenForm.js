@@ -12,14 +12,14 @@ function CobsenForm() {
 
     const { createCobsen, getCobsen, updateCobsen } = useCobsens();
     const [cobsen, setCobsen] = useState({
-      
+
         Id_Categoria: "",
         RPU: "",
         DEPENDENCIA: "",
         MEN_BIM: "",
-        TFA: "",
+        TFA: "", 
     })
-    
+
     const params = useParams();
     const navigate = useNavigate();
 
@@ -27,6 +27,7 @@ function CobsenForm() {
         const loadCobsen = async () => {
             if (params.RPU) {
                 const cobsen = await getCobsen(params.RPU)
+                
                 setCobsen({
 
                     Id_Categoria: cobsen.Id_categoria,
@@ -36,34 +37,57 @@ function CobsenForm() {
                     TFA: cobsen.TFA,
                 });
             }
+           
+           
         };
         loadCobsen();
     }, []);
 
     return (
+
         <div>
-            <h1>{params.RPU ? "Editar registro" : "Nuevo Registro"}</h1>
+
+            <h1>{params.RPU ? "Editar registro" : "Nuevo Registro" }</h1>
+
 
             <Formik
                 initialValues={cobsen}
                 enableReinitialize={true}
                 onSubmit={async (values, actions) => {
+                    
                     console.log(values);
                     actions.resetForm();
 
                     if (params.RPU) {
                         await updateCobsen(params.RPU, values);
                         navigate("/");
-                    } else {
-                        await createCobsen(values);
                     }
+                  
+                        if (values.Id_Categoria === "") {
+                            alert("Espacio Vacio")
+                        } else if (values.RPU === "") {
+                            alert("Se requiere el RPU")
+                        } else if (values.DEPENDENCIA === "") {
+                            alert ("Se requiere Dependencia")
+                        } else if (values.MEN_BIM === "") {
+                            alert ("Se requiere Men_Bim")
+                        } else if (values.TFA === "") {
+                            alert ("Se requiere TFA")
+                        }
+                     else { 
+                        await createCobsen(values);
+                        alert ("Registro creado con exito!")
+                    }
+                   
                     setCobsen({
+                        
                         Id_Categoria: "",
                         RPU: "",
                         DEPENDENCIA: "",
                         MEN_BIM: "",
                         TFA: "",
                     });
+                   
                 }}
             >
                 {({ handleChange, handleSubmit, values, isSubmitting }) => (
@@ -76,6 +100,7 @@ function CobsenForm() {
                             placeholder="Escriba el ID del sector"
                             onChange={handleChange}
                             value={values.Id_Categoria}
+
                         />
 
                        <div className="py-4 row-4">

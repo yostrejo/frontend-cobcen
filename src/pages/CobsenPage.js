@@ -81,7 +81,7 @@ function CobsenPage() {
                        <td>{cobsen.Dependencia}</td>
                        <td>{cobsen.Men_Bim}</td>
                        <td>{cobsen.TFA}</td>
-                       <button onClick={() => deleteCobsen(cobsen.RPU)}>Borrar</button>
+                       <button className="btn btn-outline-danger" onClick={() => deleteCobsen(cobsen.RPU)}>Borrar</button>
            </tr>   
                          ))} 
                          </tbody>
